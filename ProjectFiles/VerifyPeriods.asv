@@ -1,0 +1,114 @@
+load('Signals/RealSignals/RealSignals.mat');
+load('Signals/Noisy/HighNoise/PeriodicInCompleteManyHighNoise.mat');
+load('Signals/Noisy/HighNoise/PeriodicInCompleteFewHighNoise.mat');
+load('Signals/Noisy/HighNoise/PeriodicCompleteManyHighNoise.mat');
+load('Signals/Noisy/HighNoise/PeriodicCompleteFewHighNoise.mat');
+load('Signals/Noisy/LowNoise/PeriodicInCompleteManyLowNoise.mat');
+load('Signals/Noisy/LowNoise/PeriodicInCompleteFewLowNoise.mat');
+load('Signals/Noisy/LowNoise/PeriodicCompleteManyLowNoise.mat');
+load('Signals/Noisy/LowNoise/PeriodicCompleteFewLowNoise.mat');
+
+verbose = 0;
+
+errorTotal = 0;
+
+errors = 0;
+for i = 1:1:8
+    periodEstimated = PeriodDetector(Y_PeriodicCompleteFewHighNoise{i});
+    periodActual = Answers_PeriodicCompleteFewHighNoise(i);
+    if abs(periodEstimated-periodActual)>=periodActual*0.2
+       errors = errors + 1;
+       if verbose
+          fprintf("The number wrong was %d", i);
+       end
+    end
+end
+fprintf("Number wrong in PeriodicCompleteFewHighNoise:\n%d/8", errors);
+errors = 0;
+for i = 1:1:8
+    Y_PeriodicCompleteFewLowNoise
+    periodEstimated = PeriodDetector(Y_PeriodicCompleteFewLowNoise{i});
+    periodActual = Answers_PeriodicCompleteFewLowNoise(i);
+    if abs(periodEstimated-periodActual)>=periodActual*0.2
+       errors = errors + 1;
+       if verbose
+          fprintf("The number wrong was %d", i);
+       end
+    end
+end
+errors = 0;
+for i = 1:1:8
+    Y_PeriodicCompleteManyHighNoise
+    periodEstimated = PeriodDetector(Y_PeriodicCompleteManyHighNoise{i});
+    periodActual = Answers_PeriodicCompleteManyHighNoise(i);
+    if abs(periodEstimated-periodActual)>=periodActual*0.2
+       errors = errors + 1;
+       if verbose
+          fprintf("The number wrong was %d", i);
+       end
+    end
+end
+errors = 0;
+for i = 1:1:8
+    Y_PeriodicCompleteManyLowNoise
+    periodEstimated = PeriodDetector(Y_PeriodicCompleteManyLowNoise{i});
+    periodActual = Answers_PeriodicCompleteManyLowNoise(i);
+    if abs(periodEstimated-periodActual)>=periodActual*0.2
+       errors = errors + 1;
+       if verbose
+          fprintf("The number wrong was %d", i);
+       end
+    end
+end
+errors = 0;
+for i = 1:1:8
+    Y_PeriodicInCompleteFewHighNoise
+    periodEstimated = PeriodDetector(Y_PeriodicInCompleteFewHighNoise{i});
+    periodActual = Answers_PeriodicCompleteManyLowNoise(i);
+    if abs(periodEstimated-periodActual)>=periodActual*0.2
+       errors = errors + 1;
+       if verbose
+          fprintf("The number wrong was %d", i);
+       end
+    end
+end
+errors = 0;
+for i = 1:1:8
+    Y_PeriodicInCompleteFewLowNoise
+        periodEstimated = PeriodDetector(Y_PeriodicCompleteManyLowNoise{i});
+    periodActual = Answers_PeriodicCompleteManyLowNoise(i);
+    if abs(periodEstimated-periodActual)>=periodActual*0.2
+       errors = errors + 1;
+       if verbose
+          fprintf("The number wrong was %d", i);
+       end
+    end
+end
+errors = 0;
+for i = 1:1:8
+    Y_PeriodicInCompleteManyHighNoise
+        periodEstimated = PeriodDetector(Y_PeriodicCompleteManyLowNoise{i});
+    periodActual = Answers_PeriodicCompleteManyLowNoise(i);
+    if abs(periodEstimated-periodActual)>=periodActual*0.2
+       errors = errors + 1;
+       if verbose
+          fprintf("The number wrong was %d", i);
+       end
+    end
+end
+errors = 0;
+for i = 1:1:8
+    Y_PeriodicInCompleteManyLowNoise
+        periodEstimated = PeriodDetector(Y_PeriodicCompleteManyLowNoise{i});
+    periodActual = Answers_PeriodicCompleteManyLowNoise(i);
+    if abs(periodEstimated-periodActual)>=periodActual*0.2
+       errors = errors + 1;
+       if verbose
+          fprintf("The number wrong was %d", i);
+       end
+    end
+end
+errors = 0;
+for i = 1:1:8
+   out = PeriodDetector({i})
+end
