@@ -89,7 +89,7 @@ function [ numCorrect, percentErrorAverage ] = verify(signals, answers, verbose)
     end
     numCorrect = sum(percentIncorrect <= 0.2);
     percentErrorAverage = mean(percentIncorrect);
-    indices = find(percentIncorrect <= 0.2);
+    indices = find(percentIncorrect > 0.2);
     if verbose
         fprintf("Number correct out of %d was %d\n", totalNumber, numCorrect);
         fprintf("Average percent error was %.2f\n", percentErrorAverage);
