@@ -1,3 +1,4 @@
+clear
 load('Signals/RealSignals/RealSignals.mat');
 load('Signals/Noisy/HighNoise/PeriodicInCompleteManyHighNoise.mat');
 load('Signals/Noisy/HighNoise/PeriodicInCompleteFewHighNoise.mat');
@@ -87,9 +88,9 @@ function [ numCorrect, percentErrorAverage ] = verify(signals, answers, verbose)
     for i = 1:1:totalNumber
         percentIncorrect(i) = (abs(answers(i)-PeriodDetector(signals{i}))/answers(i))*100;
     end
-    numCorrect = sum(percentIncorrect <= 0.2);
+    numCorrect = sum(percentIncorrect <= 20);
     percentErrorAverage = mean(percentIncorrect);
-    indices = find(percentIncorrect > 0.2);
+    indices = find(percentIncorrect > 20);
     if verbose
         fprintf('Number correct out of %d was %d\n', totalNumber, numCorrect);
         fprintf('Average percent error was %.2f\n', percentErrorAverage);
