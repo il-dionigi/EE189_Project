@@ -15,7 +15,7 @@ correctTotal = 0;
 percentErrorAverage = [0, 0];
 timeTaken = struct('lengths',zeros(64,1), 'times',zeros(64,1));
 
-disp("Verifying PeriodicCompleteFewHighNoise...");
+disp('Verifying PeriodicCompleteFewHighNoise...');
 [correct, percentIncorrect, timeInfo] = verify(Y_PeriodicCompleteFewHighNoise, ...
     Answers_PeriodicCompleteFewHighNoise, isVerbose, isTimed);
 correctTotal = correctTotal + correct;
@@ -25,7 +25,7 @@ percentErrorAverage(1) = ((percentErrorAverage(1) * percentErrorAverage(2)) ...
     + percentIncorrect) / (percentErrorAverage(2) + 1);
 percentErrorAverage(2) = percentErrorAverage(2) + 1;
 
-disp("Verifying PeriodicCompleteFewLowNoise...");
+disp('Verifying PeriodicCompleteFewLowNoise...');
 [correct, percentIncorrect, timeInfo] = verify(Y_PeriodicCompleteFewLowNoise, ...
     Answers_PeriodicCompleteFewLowNoise, isVerbose, isTimed);
 correctTotal = correctTotal + correct;
@@ -35,7 +35,7 @@ percentErrorAverage(1) = ((percentErrorAverage(1) * percentErrorAverage(2)) ...
     + percentIncorrect) / (percentErrorAverage(2) + 1);
 percentErrorAverage(2) = percentErrorAverage(2) + 1;
 
-disp("Verifying PeriodicCompleteManyHighNoise...");
+disp('Verifying PeriodicCompleteManyHighNoise...');
 [correct, percentIncorrect, timeInfo] = verify(Y_PeriodicCompleteManyHighNoise, ...
     Answers_PeriodicCompleteManyHighNoise, isVerbose, isTimed);
 correctTotal = correctTotal + correct;
@@ -45,7 +45,7 @@ percentErrorAverage(1) = ((percentErrorAverage(1) * percentErrorAverage(2)) ...
     + percentIncorrect) / (percentErrorAverage(2) + 1);
 percentErrorAverage(2) = percentErrorAverage(2) + 1;
 
-disp("Verifying PeriodicCompleteManyLowNoise...");
+disp('Verifying PeriodicCompleteManyLowNoise...');
 [correct, percentIncorrect, timeInfo] = verify(Y_PeriodicCompleteManyLowNoise, ...
     Answers_PeriodicCompleteManyLowNoise, isVerbose, isTimed);
 correctTotal = correctTotal + correct;
@@ -55,7 +55,7 @@ percentErrorAverage(1) = ((percentErrorAverage(1) * percentErrorAverage(2)) ...
     + percentIncorrect) / (percentErrorAverage(2) + 1);
 percentErrorAverage(2) = percentErrorAverage(2) + 1;
 
-disp("Verifying PeriodicInCompleteFewHighNoise...");
+disp('Verifying PeriodicInCompleteFewHighNoise...');
 [correct, percentIncorrect, timeInfo] = verify(Y_PeriodicInCompleteFewHighNoise, ...
     Answers_PeriodicInCompleteFewHighNoise, isVerbose, isTimed);
 correctTotal = correctTotal + correct;
@@ -65,7 +65,7 @@ percentErrorAverage(1) = ((percentErrorAverage(1) * percentErrorAverage(2)) ...
     + percentIncorrect) / (percentErrorAverage(2) + 1);
 percentErrorAverage(2) = percentErrorAverage(2) + 1;
 
-disp("Verifying PeriodicInCompleteFewLowNoise...");
+disp('Verifying PeriodicInCompleteFewLowNoise...');
 [correct, percentIncorrect, timeInfo] = verify(Y_PeriodicInCompleteFewLowNoise, ...
     Answers_PeriodicInCompleteFewLowNoise, isVerbose, isTimed);
 correctTotal = correctTotal + correct;
@@ -75,7 +75,7 @@ percentErrorAverage(1) = ((percentErrorAverage(1) * percentErrorAverage(2)) ...
     + percentIncorrect) / (percentErrorAverage(2) + 1);
 percentErrorAverage(2) = percentErrorAverage(2) + 1;
 
-disp("Verifying PeriodicInCompleteManyHighNoise...");
+disp('Verifying PeriodicInCompleteManyHighNoise...');
 [correct, percentIncorrect, timeInfo] = verify(Y_PeriodicInCompleteManyHighNoise, ...
     Answers_PeriodicInCompleteManyHighNoise, isVerbose, isTimed);
 correctTotal = correctTotal + correct;
@@ -85,7 +85,7 @@ percentErrorAverage(1) = ((percentErrorAverage(1) * percentErrorAverage(2)) ...
     + percentIncorrect) / (percentErrorAverage(2) + 1);
 percentErrorAverage(2) = percentErrorAverage(2) + 1;
 
-disp("Verifying PeriodicInCompleteManyLowNoise...");
+disp('Verifying PeriodicInCompleteManyLowNoise...');
 [correct, percentIncorrect, timeInfo] = verify(Y_PeriodicInCompleteManyLowNoise, ...
     Answers_PeriodicInCompleteManyLowNoise, isVerbose, isTimed);
 correctTotal = correctTotal + correct;
@@ -96,15 +96,15 @@ percentErrorAverage(1) = ((percentErrorAverage(1) * percentErrorAverage(2)) ...
 percentErrorAverage(2) = percentErrorAverage(2) + 1;
 
 if isTimed
-   fprintf("\nOverall average time taken was: %.4f\n", mean(timeTaken.times(:)));
+   fprintf('\nOverall average time taken was: %.4f\n', mean(timeTaken.times(:)));
    scatter(timeTaken.lengths(:), timeTaken.times(:));
    title('Time Elapsed vs Input Size for Period Detector');
    xlabel('$Input~Size,~length~(n)$', 'Interpreter', 'latex');
    ylabel('$Time~Elapsed,~seconds~(s)$', 'Interpreter', 'latex');
 end
-fprintf("Number correct in total: %d\n", correctTotal);
-fprintf("This equates to %.2f percent correct\n", (correctTotal / 64) * 100);
-fprintf("with an average percent error of %.2f\n", percentErrorAverage(1));
+fprintf('Number correct in total: %d\n', correctTotal);
+fprintf('This equates to %.2f percent correct\n', (correctTotal / 64) * 100);
+fprintf('with an average percent error of %.2f\n', percentErrorAverage(1));
 
 function [ numCorrect, percentErrorAverage, timeInfo ] = verify(signals, answers, verbose, timed)
     totalNumber = length(signals);
@@ -124,15 +124,15 @@ function [ numCorrect, percentErrorAverage, timeInfo ] = verify(signals, answers
     percentErrorAverage = mean(percentIncorrect);
     indices = find(percentIncorrect > 0.2);
     if timed
-       fprintf("Average time taken was %.4f\n", tElapsed); 
+       fprintf('Average time taken was %.4f\n', tElapsed); 
     end
     if verbose
-        fprintf("Number correct out of %d was %d\n", totalNumber, numCorrect);
-        fprintf("Average percent error was %.2f\n", percentErrorAverage);
+        fprintf('Number correct out of %d was %d\n', totalNumber, numCorrect);
+        fprintf('Average percent error was %.2f\n', percentErrorAverage);
         if numCorrect ~= totalNumber
-            fprintf("Indices of incorrect periods: ");
-            fprintf("%d ", indices);
-            fprintf("\n\n");
+            fprintf('Indices of incorrect periods: ');
+            fprintf('%d ', indices);
+            fprintf('\n\n');
         end
     end
 end
