@@ -1,17 +1,21 @@
-function [ bestPeriod ] = PeriodDetector_william( rawData )
+function [ bestPeriod ] = PeriodDetector_william( rawData, useSFFT )
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
-    useSFFT = 0;
+    %useSFFT = 0;
     bestPeriod = numel(rawData);
     rawData = rawData - mean(rawData(:));
     
     if useSFFT
         k = 4;
         l = best_length(length(rawData), k);
-        try
-            [transform, f] = SFFT(rawData(1:l), k);
-        catch
-            [transform, f] = SFFT(rawData(1:l), k);
+        transformed = 0;
+        while ~transformed
+            try
+                transformed = 1;
+                [transform, f] = SFFT(rawData(1:l), k);
+            catch
+                transformed = 0;
+            end
         end
         transform = abs(transform);
     else

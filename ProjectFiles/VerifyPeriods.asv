@@ -10,14 +10,14 @@ load('Signals/Noisy/LowNoise/PeriodicCompleteFewLowNoise.mat');
 
 isVerbose = 0; % Change this to limit or delimit the ammount of info returned
 isTimed = 1; % Change this to track or not track time taken
-samplingRate = 2; % Only examines every nth value from the input data
+samplingRate = 1; % Only examines every nth value from the input data
 
 pDetectorHandle = @(input) PeriodDetector(input, samplingRate);
 
-makeComparison = 1; % Change this to compare PeriodDetectorComparison
+makeComparison = 0; % Change this to compare PeriodDetectorComparison
 samplingRateComparison = 2; % Only examine every nyth value from input data
 
-pDetectorComparisonHandle = @(inputComparison) PeriodDetectorComparison(inputComparison, samplingRateComparison);
+pDetectorComparisonHandle = @(input) PeriodDetector(input, samplingRateComparison);
 
 correctTotal = 0;
 percentErrorAverage = [0, 0];
@@ -238,19 +238,18 @@ if ~makeComparison
 else
     fprintf('\nOverall average time taken was: %.4f vs %.4f\n', mean(timeTaken.times(:)), mean(timeTakenComparison.times(:)));
     fprintf('Number correct in total was: %d vs %d\n', correctTotal, correctTotalComparison);
-    fprintf('This equates to %.2f vs %.2f percent correct\n', (correctTotal / 64) * 100, (correctTotalComparison / 64) * 100);
-    fprintf('with an average percent error of %.2f vs %.2f\n', percentErrorAverage(1), percentErrorAverageComparison(1));
-    p1 = subplot(2,1,1);
+    fprintf('This equates to %.2f vs %.2f percent correct\n', (correctTotal / 64) * 100);
+    fprintf('with an average percent error of %.2f\n', percentErrorAverage(1));
+    subplot(2,1,1);
     scatter(timeTaken.lengths(:), timeTaken.times(:));
     title('Time Elapsed vs Input Size for Period Detector');
     xlabel('$Input~Size,~length~(n)$', 'Interpreter', 'latex');
     ylabel('$Time~Elapsed,~seconds~(s)$', 'Interpreter', 'latex');
-    p2 = subplot(2,1,2);
+    subplot(2,1,2);
     scatter(timeTakenComparison.lengths(:), timeTakenComparison.times(:));
     title('Time Elapsed vs Input Size for Period Detector Comparison');
     xlabel('$Input~Size,~length~(n)$', 'Interpreter', 'latex');
     ylabel('$Time~Elapsed,~seconds~(s)$', 'Interpreter', 'latex');
-    linkaxes([p1,p2],'y');
 end
 
 function [ numCorrect, percentErrorAverage, timeInfo ] = verify(func, signals, answers, verbose, timed, comparison)
@@ -283,4 +282,22 @@ function [ numCorrect, percentErrorAverage, timeInfo ] = verify(func, signals, a
             fprintf('\n\n');
         end
     end
+end
+
+function [ numCorrect, percentErrorAverage, timeInfo ] = comparison(signals, answers)
+    totalNumber = length(signals);
+    percentIncorrect = zeros(totalNumber, 1);
+    timeInfo = struct('lengths',[], 'times',[]);
+    timeInfo.lengths = cellfun('length', signals);
+    timeInfo.times = double(-1 * ones(totalNumber, 1));
+    for i = 1:1:totalNumber
+        f = @() pDetectorComparisonHandle(signals{i}); % handle to handle of function
+        timeInfo.times(i) = double(timeit(f));
+        percentIncorrect(i) = ...
+            (abs(answers(i)-pDetectorComparisonHandle(signals{i}))/answers(i))*100;
+    end
+    tElapsed = mean(timeInfo.times(:));
+    numCorrect = sum(percentIncorrect <= 20);
+    percentErrorAverage = mean(percentIncorrect);
+    fprintf('Average time taken for comparison was %.4f\n', tElapsed); 
 end
