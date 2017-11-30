@@ -8,20 +8,25 @@ load('Signals/Noisy/LowNoise/PeriodicInCompleteFewLowNoise.mat');
 load('Signals/Noisy/LowNoise/PeriodicCompleteManyLowNoise.mat');
 load('Signals/Noisy/LowNoise/PeriodicCompleteFewLowNoise.mat');
 
+clear figures;
+
 isVerbose = 0; % Change this to limit or delimit the ammount of info returned
 isTimed = 1; % Change this to track or not track time taken
-samplingRate = 2; % Only examines every nth value from the input data
+samplingRate = 1; % Only examines every nth value from the input data
 
 pDetectorHandle = @(input) PeriodDetector(input, samplingRate);
 
 makeComparison = 1; % Change this to compare PeriodDetectorComparison
+graphTimes = 1; % Change to graph the time vs input size
+graphErrors = 1; % Change to graph the percent error vs input size
+sameScale = 0; % Change to use same scale between comparisons
 samplingRateComparison = 2; % Only examine every nyth value from input data
 
 pDetectorComparisonHandle = @(inputComparison) PeriodDetectorComparison(inputComparison, samplingRateComparison);
 
 correctTotal = 0;
-percentErrorAverage = [0, 0];
 timeTaken = struct('lengths',zeros(64,1), 'times',zeros(64,1));
+percentError = struct('lengths',zeros(64,1), 'errors',zeros(64,1));
 
 correctTotalComparison = 0;
 percentErrorAverageComparison = [0, 0];
@@ -35,9 +40,8 @@ disp('Verifying PeriodicCompleteFewHighNoise...');
 correctTotal = correctTotal + correct;
 timeTaken.lengths(1:8) = timeInfo.lengths(:);
 timeTaken.times(1:8) = timeInfo.times(:);
-percentErrorAverage(1) = ((percentErrorAverage(1) * percentErrorAverage(2)) ...
-    + percentIncorrect) / (percentErrorAverage(2) + 1);
-percentErrorAverage(2) = percentErrorAverage(2) + 1;
+percentError.lengths(1:8) = percentIncorrect.lengths(:);
+percentError.errors(1:8) = percentIncorrect.errors(:);
 
 if makeComparison
     [correct, percentIncorrect, timeInfo] = ...
@@ -46,9 +50,8 @@ if makeComparison
     correctTotalComparison = correctTotalComparison + correct;
     timeTakenComparison.lengths(1:8) = timeInfo.lengths(:);
     timeTakenComparison.times(1:8) = timeInfo.times(:);
-    percentErrorAverageComparison(1) = ((percentErrorAverageComparison(1) * percentErrorAverageComparison(2)) ...
-        + percentIncorrect) / (percentErrorAverageComparison(2) + 1);
-    percentErrorAverageComparison(2) = percentErrorAverageComparison(2) + 1;
+    percentErrorComparison.lengths(1:8) = percentIncorrect.lengths(:);
+    percentErrorComparison.errors(1:8) = percentIncorrect.errors(:);
 end
 
 disp('Verifying PeriodicCompleteFewLowNoise...');
@@ -59,9 +62,8 @@ disp('Verifying PeriodicCompleteFewLowNoise...');
 correctTotal = correctTotal + correct;
 timeTaken.lengths(9:16) = timeInfo.lengths(:);
 timeTaken.times(9:16) = timeInfo.times(:);
-percentErrorAverage(1) = ((percentErrorAverage(1) * percentErrorAverage(2)) ...
-    + percentIncorrect) / (percentErrorAverage(2) + 1);
-percentErrorAverage(2) = percentErrorAverage(2) + 1;
+percentError.lengths(9:16) = percentIncorrect.lengths(:);
+percentError.errors(9:16) = percentIncorrect.errors(:);
 
 if makeComparison
     [correct, percentIncorrect, timeInfo] = ...
@@ -70,9 +72,8 @@ if makeComparison
     correctTotalComparison = correctTotalComparison + correct;
     timeTakenComparison.lengths(9:16) = timeInfo.lengths(:);
     timeTakenComparison.times(9:16) = timeInfo.times(:);
-    percentErrorAverageComparison(1) = ((percentErrorAverageComparison(1) * percentErrorAverageComparison(2)) ...
-        + percentIncorrect) / (percentErrorAverageComparison(2) + 1);
-    percentErrorAverageComparison(2) = percentErrorAverageComparison(2) + 1;
+    percentErrorComparison.lengths(9:16) = percentIncorrect.lengths(:);
+    percentErrorComparison.errors(9:16) = percentIncorrect.errors(:);
 end
 
 disp('Verifying PeriodicCompleteManyHighNoise...');
@@ -83,9 +84,8 @@ disp('Verifying PeriodicCompleteManyHighNoise...');
 correctTotal = correctTotal + correct;
 timeTaken.lengths(17:24) = timeInfo.lengths(:);
 timeTaken.times(17:24) = timeInfo.times(:);
-percentErrorAverage(1) = ((percentErrorAverage(1) * percentErrorAverage(2)) ...
-    + percentIncorrect) / (percentErrorAverage(2) + 1);
-percentErrorAverage(2) = percentErrorAverage(2) + 1;
+percentError.lengths(17:24) = percentIncorrect.lengths(:);
+percentError.errors(17:24) = percentIncorrect.errors(:);
 
 if makeComparison
     [correct, percentIncorrect, timeInfo] = ...
@@ -94,9 +94,8 @@ if makeComparison
     correctTotalComparison = correctTotalComparison + correct;
     timeTakenComparison.lengths(17:24) = timeInfo.lengths(:);
     timeTakenComparison.times(17:24) = timeInfo.times(:);
-    percentErrorAverageComparison(1) = ((percentErrorAverageComparison(1) * percentErrorAverageComparison(2)) ...
-        + percentIncorrect) / (percentErrorAverageComparison(2) + 1);
-    percentErrorAverageComparison(2) = percentErrorAverageComparison(2) + 1;
+    percentErrorComparison.lengths(17:24) = percentIncorrect.lengths(:);
+    percentErrorComparison.errors(17:24) = percentIncorrect.errors(:);
 end
 
 disp('Verifying PeriodicCompleteManyLowNoise...');
@@ -107,9 +106,8 @@ disp('Verifying PeriodicCompleteManyLowNoise...');
 correctTotal = correctTotal + correct;
 timeTaken.lengths(25:32) = timeInfo.lengths(:);
 timeTaken.times(25:32) = timeInfo.times(:);
-percentErrorAverage(1) = ((percentErrorAverage(1) * percentErrorAverage(2)) ...
-    + percentIncorrect) / (percentErrorAverage(2) + 1);
-percentErrorAverage(2) = percentErrorAverage(2) + 1;
+percentError.lengths(25:32) = percentIncorrect.lengths(:);
+percentError.errors(25:32) = percentIncorrect.errors(:);
 
 if makeComparison
     [correct, percentIncorrect, timeInfo] = ...
@@ -118,9 +116,8 @@ if makeComparison
     correctTotalComparison = correctTotalComparison + correct;
     timeTakenComparison.lengths(25:32) = timeInfo.lengths(:);
     timeTakenComparison.times(25:32) = timeInfo.times(:);
-    percentErrorAverageComparison(1) = ((percentErrorAverageComparison(1) * percentErrorAverageComparison(2)) ...
-        + percentIncorrect) / (percentErrorAverageComparison(2) + 1);
-    percentErrorAverageComparison(2) = percentErrorAverageComparison(2) + 1;
+    percentErrorComparison.lengths(25:32) = percentIncorrect.lengths(:);
+    percentErrorComparison.errors(25:32) = percentIncorrect.errors(:);
 end
 
 disp('Verifying PeriodicInCompleteFewHighNoise...');
@@ -131,9 +128,8 @@ disp('Verifying PeriodicInCompleteFewHighNoise...');
 correctTotal = correctTotal + correct;
 timeTaken.lengths(33:40) = timeInfo.lengths(:);
 timeTaken.times(33:40) = timeInfo.times(:);
-percentErrorAverage(1) = ((percentErrorAverage(1) * percentErrorAverage(2)) ...
-    + percentIncorrect) / (percentErrorAverage(2) + 1);
-percentErrorAverage(2) = percentErrorAverage(2) + 1;
+percentError.lengths(33:40) = percentIncorrect.lengths(:);
+percentError.errors(33:40) = percentIncorrect.errors(:);
 
 if makeComparison
     [correct, percentIncorrect, timeInfo] = ...
@@ -142,9 +138,8 @@ if makeComparison
     correctTotalComparison = correctTotalComparison + correct;
     timeTakenComparison.lengths(33:40) = timeInfo.lengths(:);
     timeTakenComparison.times(33:40) = timeInfo.times(:);
-    percentErrorAverageComparison(1) = ((percentErrorAverageComparison(1) * percentErrorAverageComparison(2)) ...
-        + percentIncorrect) / (percentErrorAverageComparison(2) + 1);
-    percentErrorAverageComparison(2) = percentErrorAverageComparison(2) + 1;
+    percentErrorComparison.lengths(33:40) = percentIncorrect.lengths(:);
+    percentErrorComparison.errors(33:40) = percentIncorrect.errors(:);
 end
 
 disp('Verifying PeriodicInCompleteFewLowNoise...');
@@ -155,9 +150,8 @@ disp('Verifying PeriodicInCompleteFewLowNoise...');
 correctTotal = correctTotal + correct;
 timeTaken.lengths(41:48) = timeInfo.lengths(:);
 timeTaken.times(41:48) = timeInfo.times(:);
-percentErrorAverage(1) = ((percentErrorAverage(1) * percentErrorAverage(2)) ...
-    + percentIncorrect) / (percentErrorAverage(2) + 1);
-percentErrorAverage(2) = percentErrorAverage(2) + 1;
+percentError.lengths(41:48) = percentIncorrect.lengths(:);
+percentError.errors(41:48) = percentIncorrect.errors(:);
 
 if makeComparison
     [correct, percentIncorrect, timeInfo] = ...
@@ -166,9 +160,8 @@ if makeComparison
     correctTotalComparison = correctTotalComparison + correct;
     timeTakenComparison.lengths(41:48) = timeInfo.lengths(:);
     timeTakenComparison.times(41:48) = timeInfo.times(:);
-    percentErrorAverageComparison(1) = ((percentErrorAverageComparison(1) * percentErrorAverageComparison(2)) ...
-        + percentIncorrect) / (percentErrorAverageComparison(2) + 1);
-    percentErrorAverageComparison(2) = percentErrorAverageComparison(2) + 1;
+    percentErrorComparison.lengths(41:48) = percentIncorrect.lengths(:);
+    percentErrorComparison.errors(41:48) = percentIncorrect.errors(:);
 end
 
 disp('Verifying PeriodicInCompleteManyHighNoise...');
@@ -179,9 +172,8 @@ disp('Verifying PeriodicInCompleteManyHighNoise...');
 correctTotal = correctTotal + correct;
 timeTaken.lengths(49:56) = timeInfo.lengths(:);
 timeTaken.times(49:56) = timeInfo.times(:);
-percentErrorAverage(1) = ((percentErrorAverage(1) * percentErrorAverage(2)) ...
-    + percentIncorrect) / (percentErrorAverage(2) + 1);
-percentErrorAverage(2) = percentErrorAverage(2) + 1;
+percentError.lengths(49:56) = percentIncorrect.lengths(:);
+percentError.errors(49:56) = percentIncorrect.errors(:);
 
 if makeComparison
     [correct, percentIncorrect, timeInfo] = ...
@@ -190,9 +182,8 @@ if makeComparison
     correctTotalComparison = correctTotalComparison + correct;
     timeTakenComparison.lengths(49:56) = timeInfo.lengths(:);
     timeTakenComparison.times(49:56) = timeInfo.times(:);
-    percentErrorAverageComparison(1) = ((percentErrorAverageComparison(1) * percentErrorAverageComparison(2)) ...
-        + percentIncorrect) / (percentErrorAverageComparison(2) + 1);
-    percentErrorAverageComparison(2) = percentErrorAverageComparison(2) + 1;
+    percentErrorComparison.lengths(49:56) = percentIncorrect.lengths(:);
+    percentErrorComparison.errors(49:56) = percentIncorrect.errors(:);
 end
 
 disp('Verifying PeriodicInCompleteManyLowNoise...');
@@ -203,9 +194,8 @@ disp('Verifying PeriodicInCompleteManyLowNoise...');
 correctTotal = correctTotal + correct;
 timeTaken.lengths(57:64) = timeInfo.lengths(:);
 timeTaken.times(57:64) = timeInfo.times(:);
-percentErrorAverage(1) = ((percentErrorAverage(1) * percentErrorAverage(2)) ...
-    + percentIncorrect) / (percentErrorAverage(2) + 1);
-percentErrorAverage(2) = percentErrorAverage(2) + 1;
+percentError.lengths(57:64) = percentIncorrect.lengths(:);
+percentError.errors(57:64) = percentIncorrect.errors(:);
 
 if makeComparison
     [correct, percentIncorrect, timeInfo] = ...
@@ -214,14 +204,24 @@ if makeComparison
     correctTotalComparison = correctTotalComparison + correct;
     timeTakenComparison.lengths(57:64) = timeInfo.lengths(:);
     timeTakenComparison.times(57:64) = timeInfo.times(:);
-    percentErrorAverageComparison(1) = ((percentErrorAverageComparison(1) * percentErrorAverageComparison(2)) ...
-        + percentIncorrect) / (percentErrorAverageComparison(2) + 1);
-    percentErrorAverageComparison(2) = percentErrorAverageComparison(2) + 1;
+    percentErrorComparison.lengths(57:64) = percentIncorrect.lengths(:);
+    percentErrorComparison.errors(57:64) = percentIncorrect.errors(:);
 end
 
+percentErrorAverage = mean(percentError.errors(:));
+timeTakenAverage = mean(timeTaken.times(:));
+
+% Max plots to plot
+subplotMax = 2*graphTimes + 2*graphErrors;
+subplotCur = 0;
+    
 if ~makeComparison
+    % Max plots to plot
+    subplotMax = graphTimes + graphErrors;
+    subplotCur = 0;
+
     if isTimed
-       fprintf('\nOverall average time taken was: %.4f\n', mean(timeTaken.times(:)));
+       fprintf('\nOverall average time taken was: %.4f\n', timeTakenAverage);
        scatter(timeTaken.lengths(:), timeTaken.times(:));
        title('Time Elapsed vs Input Size for Period Detector');
        xlabel('$Input~Size,~length~(n)$', 'Interpreter', 'latex');
@@ -229,48 +229,115 @@ if ~makeComparison
     end
     fprintf('Number correct in total: %d\n', correctTotal);
     fprintf('This equates to %.2f percent correct\n', (correctTotal / 64) * 100);
-    fprintf('with an average percent error of %.2f\n', percentErrorAverage(1));
-    subplot(1,1,1);
-    scatter(timeTaken.lengths(:), timeTaken.times(:));
-    title('Time Elapsed vs Input Size for Period Detector');
-    xlabel('$Input~Size,~length~(n)$', 'Interpreter', 'latex');
-    ylabel('$Time~Elapsed,~seconds~(s)$', 'Interpreter', 'latex');
+    fprintf('with an average percent error of %.2f\n', percentErrorAverage);
+    
+    if graphTimes
+        subplotCur = subplotCur + 1;
+        subplot(2,ceil(subplotCur/2),subplotCur);
+        scatter(timeTaken.lengths(:), timeTaken.times(:));
+        hlineT = refline([0 timeTakenAverage]);
+        hlineT.Color = 'r';
+        legend(hlineT, texlabel(strcat('mu=', num2str(timeTakenAverage))));
+        title('Time Elapsed vs Input Size for Period Detector');
+        xlabel('$Input~Size,~length~(n)$', 'Interpreter', 'latex');
+        ylabel('$Time~Elapsed,~seconds~(s)$', 'Interpreter', 'latex');
+    end
+    
+    if graphErrors
+        subplotCur = subplotCur + 1;
+        subplot(2,ceil(subplotCur/2),subplotCur);
+        scatter(percentError.lengths(:), percentError.errors(:));
+        hlineE = refline([0 percentErrorAverage]);
+        hlineE.Color = 'r';
+        legend(hlineE, texlabel(strcat('mu=', num2str(percentErrorAverage))));
+        title('Absolute Percent Error vs Input Size for Period Detector');
+        xlabel('$Input~Size,~length~(n)$', 'Interpreter', 'latex');
+        ylabel('$Percent~Error,~percent~(arb)$', 'Interpreter', 'latex');
+    end
 else
-    fprintf('\nOverall average time taken was: %.4f vs %.4f\n', mean(timeTaken.times(:)), mean(timeTakenComparison.times(:)));
+    % Max plots to plot
+    subplotMax = 2*graphTimes + 2*graphErrors;
+    subplotCur = 0;
+
+    percentErrorAverageComparison = mean(percentErrorComparison.errors(:));
+    timeTakenAverageComparison = mean(timeTakenComparison.times(:));
+
+    fprintf('\nOverall average time taken was: %.4f vs %.4f\n', timeTakenAverage, timeTakenAverageComparison);
     fprintf('Number correct in total was: %d vs %d\n', correctTotal, correctTotalComparison);
     fprintf('This equates to %.2f vs %.2f percent correct\n', (correctTotal / 64) * 100, (correctTotalComparison / 64) * 100);
-    fprintf('with an average percent error of %.2f vs %.2f\n', percentErrorAverage(1), percentErrorAverageComparison(1));
-    p1 = subplot(2,1,1);
-    scatter(timeTaken.lengths(:), timeTaken.times(:));
-    title('Time Elapsed vs Input Size for Period Detector');
-    xlabel('$Input~Size,~length~(n)$', 'Interpreter', 'latex');
-    ylabel('$Time~Elapsed,~seconds~(s)$', 'Interpreter', 'latex');
-    p2 = subplot(2,1,2);
-    scatter(timeTakenComparison.lengths(:), timeTakenComparison.times(:));
-    title('Time Elapsed vs Input Size for Period Detector Comparison');
-    xlabel('$Input~Size,~length~(n)$', 'Interpreter', 'latex');
-    ylabel('$Time~Elapsed,~seconds~(s)$', 'Interpreter', 'latex');
-    linkaxes([p1,p2],'y');
+    fprintf('with an average percent error of %.2f vs %.2f\n', percentErrorAverage, percentErrorAverageComparison);
+    
+    if graphTimes
+        subplotCur = subplotCur + 1;
+        p1 = subplot(2,subplotMax/2,subplotCur);
+        scatter(timeTaken.lengths(:), timeTaken.times(:));
+        hline1 = refline([0 timeTakenAverage]);
+        hline1.Color = 'r';
+        legend(hline1, texlabel(strcat('mu=', num2str(timeTakenAverage))));
+        title('Time Elapsed vs Input Size for Period Detector');
+        xlabel('$Input~Size,~length~(n)$', 'Interpreter', 'latex');
+        ylabel('$Time~Elapsed,~seconds~(s)$', 'Interpreter', 'latex');
+        
+        subplotCur = subplotCur + 1;
+        p2 = subplot(2,subplotMax/2,subplotCur);
+        scatter(timeTakenComparison.lengths(:), timeTakenComparison.times(:));
+        hline2 = refline([0 timeTakenAverageComparison]);
+        hline2.Color = 'r';
+        legend(hline2, texlabel(strcat('mu=', num2str(timeTakenAverageComparison))));
+        title('Time Elapsed vs Input Size for Period Detector Comparison');
+        xlabel('$Input~Size,~length~(n)$', 'Interpreter', 'latex');
+        ylabel('$Time~Elapsed,~seconds~(s)$', 'Interpreter', 'latex');
+        if sameScale
+            linkaxes([p1,p2],'y');
+        end
+    end
+    
+    if graphErrors
+        subplotCur = subplotCur + 1;
+        p3 = subplot(2,subplotMax/2,subplotCur);
+        scatter(percentError.lengths(:), percentError.errors(:));
+        hline3 = refline([0 percentErrorAverage]);
+        hline3.Color = 'r';
+        legend(hline3, texlabel(strcat('mu=', num2str(percentErrorAverage))));
+        title('Absolute Percent Error vs Input Size for Period Detector');
+        xlabel('$Input~Size,~length~(n)$', 'Interpreter', 'latex');
+        ylabel('$Percent~Error,~percent~(arb)$', 'Interpreter', 'latex');
+        
+        subplotCur = subplotCur + 1;
+        p4 = subplot(2,subplotMax/2,subplotCur);
+        scatter(percentErrorComparison.lengths(:), percentErrorComparison.errors(:));
+        hline4 = refline([0 percentErrorAverageComparison]);
+        hline4.Color = 'r';
+        legend(hline4, texlabel(strcat('mu=', num2str(percentErrorAverageComparison))));
+        title('TAbsolute Percent Error vs Input Size for Period Detector Comparison');
+        xlabel('$Input~Size,~length~(n)$', 'Interpreter', 'latex');
+        ylabel('$Percent~Error,~percent~(arb)$', 'Interpreter', 'latex');
+        
+        if sameScale
+            linkaxes([p3,p4],'y');
+        end
+    end
 end
 
-function [ numCorrect, percentErrorAverage, timeInfo ] = verify(func, signals, answers, verbose, timed, comparison)
+function [ numCorrect, percentError, timeInfo ] = verify(func, signals, answers, verbose, timed, comparison)
     totalNumber = length(signals);
-    percentIncorrect = zeros(totalNumber, 1);
     timeInfo = struct('lengths',[], 'times',[]);
+    percentError = struct('lengths',[], 'errors',[]);
     timeInfo.lengths = cellfun('length', signals);
+    percentError.lengths = cellfun('length', signals);
     timeInfo.times = double(-1 * ones(totalNumber, 1));
     for i = 1:1:totalNumber
         f = @()func(signals{i}); % handle to function
         if (timed)
             timeInfo.times(i) = double(timeit(f));
         end
-        percentIncorrect(i) = ...
+        percentError.errors(i) = ...
             (abs(answers(i)-func(signals{i}))/answers(i))*100;
     end
     tElapsed = mean(timeInfo.times(:));
-    numCorrect = sum(percentIncorrect <= 20);
-    percentErrorAverage = mean(percentIncorrect);
-    indices = find(percentIncorrect > 20);
+    numCorrect = sum(percentError.errors(:) <= 20);
+    percentErrorAverage = mean(percentError.errors(:));
+    indices = find(percentError.errors(:) > 20);
     if timed && ~comparison
        fprintf('Average time taken was %.4f\n', tElapsed); 
     end
