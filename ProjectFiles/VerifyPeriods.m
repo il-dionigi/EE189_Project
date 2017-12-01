@@ -8,7 +8,7 @@ load('Signals/Noisy/LowNoise/PeriodicInCompleteFewLowNoise.mat');
 load('Signals/Noisy/LowNoise/PeriodicCompleteManyLowNoise.mat');
 load('Signals/Noisy/LowNoise/PeriodicCompleteFewLowNoise.mat');
 
-clear figures;
+clf('reset');
 
 isVerbose = 0; % Change this to limit or delimit the ammount of info returned
 isTimed = 1; % Change this to track or not track time taken
