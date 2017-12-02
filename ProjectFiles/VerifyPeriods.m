@@ -1,4 +1,5 @@
 load('Signals/RealSignals/RealSignals.mat');
+load('Signals/RealSignals/Periods.mat');
 load('Signals/Noisy/HighNoise/PeriodicInCompleteManyHighNoise.mat');
 load('Signals/Noisy/HighNoise/PeriodicInCompleteFewHighNoise.mat');
 load('Signals/Noisy/HighNoise/PeriodicCompleteManyHighNoise.mat');
@@ -10,6 +11,8 @@ load('Signals/Noisy/LowNoise/PeriodicCompleteFewLowNoise.mat');
 
 clf('reset');
 
+warning('off','all')
+
 isVerbose = 0; % Change this to limit or delimit the ammount of info returned
 isTimed = 1; % Change this to track or not track time taken
 samplingRate = 1; % Only examines every nth value from the input data
@@ -18,11 +21,23 @@ pDetectorHandle = @(input) PeriodDetector(input, samplingRate);
 
 makeComparison = 1; % Change this to compare PeriodDetectorComparison
 graphTimes = 1; % Change to graph the time vs input size
+detectorTitle = 'FFT w/Sampling n=1';
+comparisonTitle = 'SFFT w/Sampling n=1';
 graphErrors = 1; % Change to graph the percent error vs input size
-sameScale = 0; % Change to use same scale between comparisons
-samplingRateComparison = 2; % Only examine every nyth value from input data
+sameScale = 1; % Change to use same scale between comparisons
+samplingRateComparison = 1; % Only examine every nyth value from input data
 
 pDetectorComparisonHandle = @(inputComparison) PeriodDetectorComparison(inputComparison, samplingRateComparison);
+
+disp('Verifying RealSignals...');
+fprintf('For %s: \n', detectorTitle);
+[~, ~, ~] = ...
+    verify(pDetectorHandle, Y_RealSignals, Periods, ...
+    1, 0, 0);
+fprintf('For %s: \n', comparisonTitle);
+[~, ~, ~] = ...
+    verify(pDetectorComparisonHandle, Y_RealSignals, Periods, ...
+    1, 0, 0);
 
 correctTotal = 0;
 timeTaken = struct('lengths',zeros(64,1), 'times',zeros(64,1));
@@ -211,10 +226,6 @@ end
 percentErrorAverage = mean(percentError.errors(:));
 timeTakenAverage = mean(timeTaken.times(:));
 
-% Max plots to plot
-subplotMax = 2*graphTimes + 2*graphErrors;
-subplotCur = 0;
-    
 if ~makeComparison
     % Max plots to plot
     subplotMax = graphTimes + graphErrors;
@@ -259,22 +270,25 @@ else
     subplotMax = 2*graphTimes + 2*graphErrors;
     subplotCur = 0;
 
-    percentErrorAverageComparison = mean(percentErrorComparison.errors(:));
+    percentErrorAverageComparison = double(mean(percentErrorComparison.errors(:)));
     timeTakenAverageComparison = mean(timeTakenComparison.times(:));
 
-    fprintf('\nOverall average time taken was: %.4f vs %.4f\n', timeTakenAverage, timeTakenAverageComparison);
+    fprintf('\nComparing %s vs %s\n', detectorTitle, comparisonTitle);
+    fprintf('Overall average time taken was: %.4f vs %.4f\n', timeTakenAverage, timeTakenAverageComparison);
     fprintf('Number correct in total was: %d vs %d\n', correctTotal, correctTotalComparison);
     fprintf('This equates to %.2f vs %.2f percent correct\n', (correctTotal / 64) * 100, (correctTotalComparison / 64) * 100);
     fprintf('with an average percent error of %.2f vs %.2f\n', percentErrorAverage, percentErrorAverageComparison);
     
     if graphTimes
+        titleFormat= 'Time Elapsed vs Input Size for %s';
+
         subplotCur = subplotCur + 1;
         p1 = subplot(2,subplotMax/2,subplotCur);
         scatter(timeTaken.lengths(:), timeTaken.times(:));
         hline1 = refline([0 timeTakenAverage]);
         hline1.Color = 'r';
         legend(hline1, texlabel(strcat('mu=', num2str(timeTakenAverage))));
-        title('Time Elapsed vs Input Size for Period Detector');
+        title(sprintf(titleFormat, detectorTitle));
         xlabel('$Input~Size,~length~(n)$', 'Interpreter', 'latex');
         ylabel('$Time~Elapsed,~seconds~(s)$', 'Interpreter', 'latex');
         
@@ -284,22 +298,25 @@ else
         hline2 = refline([0 timeTakenAverageComparison]);
         hline2.Color = 'r';
         legend(hline2, texlabel(strcat('mu=', num2str(timeTakenAverageComparison))));
-        title('Time Elapsed vs Input Size for Period Detector Comparison');
+        title(sprintf(titleFormat, comparisonTitle));
         xlabel('$Input~Size,~length~(n)$', 'Interpreter', 'latex');
         ylabel('$Time~Elapsed,~seconds~(s)$', 'Interpreter', 'latex');
+        
         if sameScale
             linkaxes([p1,p2],'y');
         end
     end
     
     if graphErrors
+        titleFormat= 'Absolute Percent Error vs Input Size for %s';
+
         subplotCur = subplotCur + 1;
         p3 = subplot(2,subplotMax/2,subplotCur);
         scatter(percentError.lengths(:), percentError.errors(:));
         hline3 = refline([0 percentErrorAverage]);
         hline3.Color = 'r';
         legend(hline3, texlabel(strcat('mu=', num2str(percentErrorAverage))));
-        title('Absolute Percent Error vs Input Size for Period Detector');
+        title(sprintf(titleFormat, detectorTitle));
         xlabel('$Input~Size,~length~(n)$', 'Interpreter', 'latex');
         ylabel('$Percent~Error,~percent~(arb)$', 'Interpreter', 'latex');
         
@@ -309,7 +326,7 @@ else
         hline4 = refline([0 percentErrorAverageComparison]);
         hline4.Color = 'r';
         legend(hline4, texlabel(strcat('mu=', num2str(percentErrorAverageComparison))));
-        title('TAbsolute Percent Error vs Input Size for Period Detector Comparison');
+        title(sprintf(titleFormat, comparisonTitle));
         xlabel('$Input~Size,~length~(n)$', 'Interpreter', 'latex');
         ylabel('$Percent~Error,~percent~(arb)$', 'Interpreter', 'latex');
         
@@ -331,8 +348,9 @@ function [ numCorrect, percentError, timeInfo ] = verify(func, signals, answers,
         if (timed)
             timeInfo.times(i) = double(timeit(f));
         end
+        temp = abs(answers(i)-func(signals{i}));
         percentError.errors(i) = ...
-            (abs(answers(i)-func(signals{i}))/answers(i))*100;
+            (temp/answers(i))*100;
     end
     tElapsed = mean(timeInfo.times(:));
     numCorrect = sum(percentError.errors(:) <= 20);
@@ -342,7 +360,7 @@ function [ numCorrect, percentError, timeInfo ] = verify(func, signals, answers,
        fprintf('Average time taken was %.4f\n', tElapsed); 
     end
     if verbose && ~comparison
-        fprintf('Number correct out of %d was %d\n', totalNumber, numCorrect);
+        fprintf('Number correct was %d out of %d\n', numCorrect, totalNumber);
         fprintf('Average percent error was %.2f\n', percentErrorAverage);
         if numCorrect ~= totalNumber
             fprintf('Indices of incorrect periods: ');

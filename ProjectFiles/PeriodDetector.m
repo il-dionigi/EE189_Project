@@ -5,7 +5,7 @@ function [ bestPeriod ] = PeriodDetector( rawData, samplingRate )
     rawData = rawData(mod(1:1:length(rawData), samplingRate)==0);
 
     useSFFT = 0;
-    bestPeriod = PeriodDetector_william(rawData, useSFFT);
+    bestPeriod = PeriodDetector_brian(rawData, useSFFT);
     
     bestPeriod = bestPeriod * samplingRate;
 end
