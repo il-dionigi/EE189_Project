@@ -1,7 +1,4 @@
-function [ bestPeriod ] = PeriodDetector_william( rawData, useSFFT )
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
-    %useSFFT = 0;
+function [ bestPeriod ] = PeriodDetector_brian( rawData, useSFFT )
     bestPeriod = numel(rawData);
     rawData = rawData - mean(rawData(:));
     
@@ -38,17 +35,17 @@ function [ bestPeriod ] = PeriodDetector_william( rawData, useSFFT )
         x = 2;
     end
     
-%     iteratively refine what we think the fundamental harmonic is
-%     weight = zeros(size(f));
-%     harmonic = zeros(size(f));
-%     for i = 1:numel(f)
-%         weight(i) = transform(f(i)+1);
-%         for j = 1:i
-%             harmonic(j) = single(uint8(f(j)/x));
-%         end
-%         a linear regression function
-%         x = lscov(transpose(harmonic(1:i)), transpose(f(1:i)), transpose(weight(1:i)));
-%     end
+    %iteratively refine what we think the fundamental harmonic is
+    weight = zeros(size(f));
+    harmonic = zeros(size(f));
+    for i = 1:numel(f)
+        weight(i) = transform(f(i)+1);
+        for j = 1:i
+            harmonic(j) = single(uint8(f(j)/x));
+        end
+        %a linear regression function
+        x = lscov(transpose(harmonic(1:i)), transpose(f(1:i)), transpose(weight(1:i)));
+    end
     
     bestPeriod = l/x;
 end

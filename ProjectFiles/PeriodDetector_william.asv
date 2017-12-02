@@ -3,7 +3,7 @@ function [ bestPeriod ] = PeriodDetector_william( rawData, useSFFT )
 %   Detailed explanation goes here
     %useSFFT = 0;
     bestPeriod = numel(rawData);
-    rawData = rawData - mean(rawData(:));
+%     rawData = rawData - mean(rawData(:));
     
     if useSFFT
         k = 4;
@@ -25,6 +25,9 @@ function [ bestPeriod ] = PeriodDetector_william( rawData, useSFFT )
         mx = max(transform);
         transform = transform.*(transform > 0.25*mx);
         [~, f] = findpeaks(transform);
+        if f(1) == 0
+            f = f(2:end);
+            
     end
 
     %simple hypothesis for what the first harmonic of ther period is
