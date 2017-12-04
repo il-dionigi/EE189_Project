@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/W32TeX) (preloaded format=pdflatex 2017.10.29)  3 DEC 2017 01:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/W32TeX) (preloaded format=pdflatex 2017.10.29)  3 DEC 2017 20:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -402,18 +402,18 @@ File: english.lbx 2016/12/05 v3.7 biblatex localization (PK/JW/AB)
  (./Report.aux)
 \openout1 = `Report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
 Package biblatex Info: No input encoding detected.
 (biblatex)             Assuming 'ascii'.
 Package biblatex Info: Automatic encoding selection.
@@ -424,8 +424,8 @@ Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'Report.bbl' found.
 
 (./Report.bbl)
-Package biblatex Info: Reference section=0 on input line 27.
-Package biblatex Info: Reference segment=0 on input line 27.
+Package biblatex Info: Reference section=0 on input line 25.
+Package biblatex Info: Reference segment=0 on input line 25.
  (c:/texlive/2017/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count287
@@ -460,16 +460,16 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 41.
+(Font)              <7> on input line 39.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 41.
+(Font)              <5> on input line 39.
 <FFTvsSFFT_graph.png, id=1, 905.04791pt x 482.13458pt>
 File: FFTvsSFFT_graph.png Graphic file (type png)
 <use FFTvsSFFT_graph.png>
-Package pdftex.def Info: FFTvsSFFT_graph.png  used on input line 64. on input l
-ine 64.
+Package pdftex.def Info: FFTvsSFFT_graph.png  used on input line 62. on input l
+ine 62.
 Package pdftex.def Info: Requested size: 422.09714pt x 224.85973pt on input lin
-e 64.
+e 62.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -479,7 +479,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 {c:/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 
 Package biblatex Warning: No driver for entry type 'papersfft'.
-(biblatex)                Using fallback driver on input line 72.
+(biblatex)                Using fallback driver on input line 70.
 
 [2 <./FFTvsSFFT_graph.png>] (./Report.aux)
 Package logreq Info: Writing requests to 'Report.run.xml'.
@@ -493,7 +493,7 @@ Here is how much of TeX's memory you used:
  11835 multiletter control sequences out of 15000+600000
  5474 words of font info for 21 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 40i,5n,45p,962b,1267s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 40i,5n,45p,965b,1267s stack positions out of 5000i,500n,10000p,200000b,80000s
 <c:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/tex
 live/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2017
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><c:/texlive/2017/texmf-d
@@ -503,7 +503,7 @@ lic/amsfonts/cm/cmr10.pfb><c:/texlive/2017/texmf-dist/fonts/type1/public/amsfon
 ts/cm/cmr7.pfb><c:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7
 .pfb><c:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/
 texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on Report.pdf (2 pages, 241068 bytes).
+Output written on Report.pdf (2 pages, 241017 bytes).
 PDF statistics:
  54 PDF objects out of 1000 (max. 8388607)
  37 compressed objects within 1 object stream
